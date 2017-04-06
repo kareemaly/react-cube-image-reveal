@@ -1,6 +1,5 @@
 import React from 'react';
 import { StaggeredMotion, spring, presets } from 'react-motion';
-import flatten from 'lodash/flatten';
 import styled from 'styled-components';
 
 const MatrixWrapper = styled.div`
@@ -17,10 +16,7 @@ const ImageCubeWrapper = styled.div`
   opacity: ${(props) => props.opacity};
 `;
 
-export default class FadeInAnimator extends React.Component {
-  static configPropTypes = {
-  };
-
+export default class Animator extends React.Component {
   static propTypes = {
     springConfig: React.PropTypes.shape({
       stiffness: React.PropTypes.number,
@@ -29,27 +25,9 @@ export default class FadeInAnimator extends React.Component {
     }).isRequired,
     piecesPerWidth: React.PropTypes.number.isRequired,
     imageCubeMatrix: React.PropTypes.arrayOf(React.PropTypes.arrayOf(React.PropTypes.element)).isRequired,
-    ...FadeInAnimator.configPropTypes,
+    applyAnimationInitialization: React.PropTypes.func.isRequired,
+    applyAnimation: React.PropTypes.func.isRequired,
   };
-
-  static defaultProps = {
-  };
-
-  getDefaultStyles({ imageCubeMatrix }) {
-    return flatten(imageCubeMatrix).map(imageCube => ({
-      opacity: 0,
-    }));
-  }
-
-  getStyles({ imageCubeMatrix, springConfig }) {
-    const _spring = (val) => spring(val, springConfig);
-
-    return (prevStyles) => prevStyles.map((_, i) => {
-      return i === 0 ?
-        { opacity: _spring(1) } :
-        { opacity: _spring(prevStyles[i - 1].opacity > 0.3 ? 1 : 0) };
-    });
-  }
 
   renderMatrix({ imageCubeMatrix, styles, piecesPerWidth }) {
     return imageCubeMatrix.map((imageCubeRow, i) => (
@@ -71,13 +49,21 @@ export default class FadeInAnimator extends React.Component {
       springConfig,
       imageCubeMatrix,
       piecesPerWidth,
+      applyAnimationInitialization,
+      applyAnimation,
       ...props,
     } = this.props;
 
     return (
       <StaggeredMotion
-        defaultStyles={this.getDefaultStyles({ imageCubeMatrix })}
-        styles={this.getStyles({ imageCubeMatrix, springConfig })}
+        defaultStyles={applyAnimationInitialization({
+          imageCubeMatrix,
+        })}
+        styles={(prevStyles) => applyAnimation({
+          prevStyles,
+          imageCubeMatrix,
+          springConfig,
+        })}
       >
       {(styles) => (
         <MatrixWrapper {...props}>

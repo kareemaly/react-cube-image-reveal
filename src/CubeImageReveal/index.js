@@ -2,8 +2,9 @@ import React from 'react';
 import { Motion, spring, presets } from 'react-motion';
 import Measure from 'react-measure';
 import styled from 'styled-components';
-import FadeInAnimator from './FadeInAnimator';
+import Animator from './Animator';
 import ImageCube from './ImageCube';
+import * as simpleFadeInAnimation from './animations/simpleFadeIn';
 
 const SliderWrapper = styled.div`
 `;
@@ -19,12 +20,17 @@ export default class CubeImageReveal extends React.Component {
       precision: React.PropTypes.number,
       damping: React.PropTypes.number,
     }),
-    animationType: React.PropTypes.oneOf(['fadeIn']),
-    fadeInConfig: React.PropTypes.shape(FadeInAnimator.configPropTypes).isRequired,
+    animationType: React.PropTypes.oneOf([
+      'fadeIn',
+    ]),
+    applyAnimationInitialization: React.PropTypes.func,
+    applyAnimation: React.PropTypes.func,
   };
 
   static defaultProps = {
     springConfig: presets.noWobble,
+    applyAnimationInitialization: simpleFadeInAnimation.applyAnimationInitialization,
+    applyAnimation: simpleFadeInAnimation.applyAnimation,
   };
 
   getImageCube({ image, width, cubeWidth, cubeHeight, position }) {
@@ -65,7 +71,8 @@ export default class CubeImageReveal extends React.Component {
       width,
       height,
       piecesPerWidth,
-      fadeInConfig,
+      applyAnimationInitialization,
+      applyAnimation,
       ...props,
     } = this.props;
 
@@ -73,8 +80,9 @@ export default class CubeImageReveal extends React.Component {
 
     return (
       <SliderWrapper>
-        <FadeInAnimator
-          fadeInConfig={fadeInConfig}
+        <Animator
+          applyAnimationInitialization={applyAnimationInitialization}
+          applyAnimation={applyAnimation}
           piecesPerWidth={piecesPerWidth}
           springConfig={springConfig}
           imageCubeMatrix={imageCubeMatrix}
