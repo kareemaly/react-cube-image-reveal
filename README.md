@@ -7,6 +7,9 @@ Installing
 $ npm install react-cube-image-reveal --save
 ```
 
+[Demos](http://bitriddler.com/playground/cube-image-reveal)
+--------------
+
 Example
 --------------
 
@@ -36,6 +39,19 @@ export default class Test extends React.Component {
   }
 } 
 ```
+
+
+
+| Property | Type | Default | Description |
+| --- | --- | --- | --- |
+| image* | string |  |  |
+| width* | number |  |  |
+| height* | number |  |  |
+| piecesPerWidth* | number |  |  |
+| springConfig | shape (stiffness, precision, damping) | presets.noWobble |  |
+| animationType | enum | 'fadeInFromCenter' |  |
+| inverseAnimation | bool | true |  |
+| customAnimator | shape (applyAnimation, applyAnimationInitialization, applyInverseAnimation, getWrapper) |  |  |
 
 Contributing
 --------------
