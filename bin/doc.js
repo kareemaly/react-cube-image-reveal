@@ -42,11 +42,16 @@ const getComponentReadmeProps = (component) => {
     }
 
     if(propertyType === 'shape') {
-      propertyType += ` (${_.keys(propInfo.type.value).join(', ')})`;
+      const shapeString = _.keys(propInfo.type.value).map(key => '`' + key + ': ' + propInfo.type.value[key].name + '`').join('<br />');
+      propertyType += ` {<br />${shapeString}<br />}`;
+    }
+
+    if(propertyType === 'enum') {
+      propertyType += ` (${propInfo.type.value.map(val => val.value).join(', ')})`;
     }
 
     readmeProps += `
-| ${propertyName}${propertyRequired ? '*' : ''} | ${propertyType} | ${propertyDefault} | ${propertyDescription.replace('|', ':').replace('\n', '<br />')} |`;
+| ${propertyName}${propertyRequired ? '*' : ''} | ${propertyType} | ${propertyDefault} | ${propertyDescription.replace('|', ':').replace(/\n/g,'<br />')} |`;
   }
 
   return readmeProps;

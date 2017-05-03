@@ -36,23 +36,56 @@ const animators = {
 
 export default class CubeImageReveal extends React.Component {
   static propTypes = {
+    /**
+     * Image url to animate.
+     */
     image: React.PropTypes.string.isRequired,
+    /**
+     * Image width. This is required for this animation to work.
+     */
     width: React.PropTypes.number.isRequired,
+    /**
+     * Image height. This is required for this animation to work.
+     */
     height: React.PropTypes.number.isRequired,
+    /**
+     * This defines how many pieces the width should be divided into.
+     * Setting this too high will impact the performance of the animation so
+     * use this carefully.
+     */
     piecesPerWidth: React.PropTypes.number.isRequired,
+    /**
+     * React motion configurations.
+     * [More about this here](https://github.com/chenglou/react-motion#--spring-val-number-config-springhelperconfig--opaqueconfig)
+     */
     springConfig: React.PropTypes.shape({
       stiffness: React.PropTypes.number,
       precision: React.PropTypes.number,
       damping: React.PropTypes.number,
     }),
-    animationType: React.PropTypes.oneOf(keys(animators)),
+    /**
+     * Type of animation to use.
+     */
+    animationType: React.PropTypes.oneOf([
+      'simpleFadeIn',
+      'fadeInFromCenter',
+      'fadeInToBottomRightEdge',
+      'rotateToBottomRightEdge',
+      'rotateFromCenter',
+      'rotateTopToBottom',
+    ]),
+    /**
+     * Setting this to true will reverse the image animation.
+     */
     inverseAnimation: React.PropTypes.bool,
-    // use this If you want to use your own animation
+    /**
+     * Use this if you want to apply your own animation.
+     * Take a look at our animations to learn more [from here](https://github.com/bitriddler/react-cube-image-reveal/tree/master/src/CubeImageReveal/animations)
+     */
     customAnimator: React.PropTypes.shape({
       applyAnimation: React.PropTypes.func.isRequired,
       applyAnimationInitialization: React.PropTypes.func.isRequired,
       applyInverseAnimation: React.PropTypes.func.isRequired,
-      // Wrapper element
       getWrapper: React.PropTypes.func,
     }),
   };

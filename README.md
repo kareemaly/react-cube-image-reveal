@@ -10,48 +10,29 @@ $ npm install react-cube-image-reveal --save
 [Demos](http://bitriddler.com/playground/cube-image-reveal)
 --------------
 
-Example
+Usage
 --------------
 
 ```javascript
-import React from 'react';
-import CubeImageReveal from 'react-cube-image-reveal';
-
-export default class Test extends React.Component {
-  createSlideItem(number) {
-    return (
-      <div style={{ height: 200, background: '#333' }}>{number}</div>
-    );
-  }
-
-  render() {
-    return (
-      <CubeImageReveal canCenterOne={false} firstItemGutter={24} lastItemGutter={24} gutter={12} numberOfCards={2}>
-        {this.createSlideItem(1)}
-        {this.createSlideItem(2)}
-        {this.createSlideItem(3)}
-        {this.createSlideItem(4)}
-        {this.createSlideItem(5)}
-        {this.createSlideItem(6)}
-        {this.createSlideItem(7)}
-      </CubeImageReveal>
-    );  
-  }
-} 
+<CubeImageReveal
+  image={image}
+  width={width}
+  height={height}
+  piecesPerWidth={piecesPerWidth}
+  animationType={animationType}
+/>
 ```
-
-
 
 | Property | Type | Default | Description |
 | --- | --- | --- | --- |
-| image* | string |  |  |
-| width* | number |  |  |
-| height* | number |  |  |
-| piecesPerWidth* | number |  |  |
-| springConfig | shape (stiffness, precision, damping) | presets.noWobble |  |
-| animationType | enum | 'fadeInFromCenter' |  |
-| inverseAnimation | bool | true |  |
-| customAnimator | shape (applyAnimation, applyAnimationInitialization, applyInverseAnimation, getWrapper) |  |  |
+| image* | string |  | Image url to animate. |
+| width* | number |  | Image width. This is required for this animation to work. |
+| height* | number |  | Image height. This is required for this animation to work. |
+| piecesPerWidth* | number |  | This defines how many pieces the width should be divided into.<br />Setting this too high will impact the performance of the animation so<br />use this carefully. |
+| springConfig | shape {<br />`stiffness: number`<br />`precision: number`<br />`damping: number`<br />} | presets.noWobble | React motion configurations.<br />[More about this here](https://github.com/chenglou/react-motion#--spring-val-number-config-springhelperconfig--opaqueconfig) |
+| animationType | enum ('simpleFadeIn', 'fadeInFromCenter', 'fadeInToBottomRightEdge', 'rotateToBottomRightEdge', 'rotateFromCenter', 'rotateTopToBottom') | 'fadeInFromCenter' | Type of animation to use. |
+| inverseAnimation | bool | true | Setting this to true will reverse the image animation. |
+| customAnimator | shape {<br />`applyAnimation: func`<br />`applyAnimationInitialization: func`<br />`applyInverseAnimation: func`<br />`getWrapper: func`<br />} |  | Use this if you want to apply your own animation.<br />Take a look at our animations to learn more [from here](https://github.com/bitriddler/react-cube-image-reveal/tree/master/src/CubeImageReveal/animations) |
 
 Contributing
 --------------
